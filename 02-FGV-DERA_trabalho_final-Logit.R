@@ -1,15 +1,3 @@
-##################################################################################################
-######## Trabalho final da Disciplina - Decisões Empresariais e Raciocínio Analítico [DERA] ######
-##################################################################################################
-##                                 Dados de um banco                                        ######
-## Existem contas com e sem empréstimo, podemos propor aumentar o volume de empréstimos do  ######
-## banco, oferecendo crédito para os indivíduos sem empréstimos que têm uma maior probabilidade ##
-## de serem bons pagadores.                                                                 ######
-
-## Autor: Iago Nunes (github.com/iagocnunes)
-
-####------------------------------- PARTE TRÊS: REGRESSÃO LOGISTICA -------------------------------####
-
 rm(list = ls())
 library(caret)
 library(glmnet)
@@ -19,8 +7,6 @@ library(leaps)
 library(tidyverse)
 library(doParallel)
 library(InformationValue)
-
-### Funções e parametros
 
 SelecionaCutOff <- function(fitted,y){
   
@@ -79,23 +65,18 @@ num_kfold  <-  10
 
 dados_final <-readRDS('dados_final')
 
-# para reprodutibilidade do exercício
 set.seed(1)
-# dividimos os dados entre duas amostras, uma de treino com 70% das observações, e uma de teste, com 30%
 sample <- sample(c(TRUE, FALSE), nrow(dados_final), replace=TRUE, prob=c(0.7,0.3))
 dados_treino <- dados_final[sample, ]
 dados_teste <- dados_final[!sample, ]
 
-##################################### Parametros do Logit ######################
 # constante de regularização alfa=1 lambda=0
-tuneGrid<-expand.grid(alpha = 1, lambda=0) # regressão tipo LASSO e penalidade do estimador ML
+tuneGrid<-expand.grid(alpha = 1, lambda=0)
 
-# controle dos clusters
 trControl <- trainControl(method = 'cv', number = num_kfold, savePredictions =  TRUE,
                           classProbs = FALSE,
                           allowParallel = TRUE)
 
-#logit com variaveis pre-determinadas.
 model.fit <- train(status ~ idade+balance+gnr+junior+classic+gold+balance_distr+A10+A11, data = dados_treino, 
                    method = "glmnet", trControl = trControl,
                    tuneGrid=tuneGrid, verbose=FALSE,
@@ -112,11 +93,7 @@ coef(model.fit$finalModel,model.fit$finalModel$lambdaOpt)
 #balance_distr  0.00007543199
 #A10           -0.00759807449
 #A11            0.00012097503
-
-################################################################################
-####### Definicao Limiar com base no k-Fold Cross Validation.###################
-################################################################################
-# Limiar e Cutoff no CV 
+ 
 mat.cutoff <- matrix(NA,ncol=1,nrow=num_kfold,
                      dimnames = list(paste("fold",c(1:num_kfold),sep="")))
 
@@ -149,7 +126,6 @@ for (k in 1:num_kfold){
   
 } 
 
-# Analisando matrizes de confusão
 Metricas.Totais.In <- colMeans(metricas.in)
 cut.off.selected <- mean(mat.cutoff)
 prob_in <-  predict.train(model.fit, type = "prob", newdata = dados_treino )
