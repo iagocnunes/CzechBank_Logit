@@ -1,14 +1,14 @@
 ##################################################################################################
-######## Trabalho final da Disciplina - Decisões Empresariais e Raciocínio Analítico [DERA] ######
+######## Trabalho final da Disciplina - DecisÃµes Empresariais e RaciocÃ­nio AnalÃ­tico [DERA] ######
 ##################################################################################################
 ##                                 Dados de um banco                                        ######
-## Existem contas com e sem empréstimo, podemos propor aumentar o volume de empréstimos do  ######
-## banco, oferecendo crédito para os indivíduos sem empréstimos que têm uma maior probabilidade ##
+## Existem contas com e sem emprÃ©stimo, podemos propor aumentar o volume de emprÃ©stimos do  ######
+## banco, oferecendo crÃ©dito para os indivÃ­duos sem emprÃ©stimos que tÃªm uma maior probabilidade ##
 ## de serem bons pagadores.                                                                 ######
 
 ## Autor: Iago Nunes (github.com/iagocnunes)
 
-####----------------------------- PARTE TRÊS: REGRESSÃO LOGISTICA LASSO -----------------------------####
+####------------------------------- PARTE TRÃŠS: REGRESSÃƒO LOGISTICA -------------------------------####
 
 rm(list = ls())
 library(caret)
@@ -20,7 +20,7 @@ library(tidyverse)
 library(doParallel)
 library(InformationValue)
 
-### Funções e parametros
+### FunÃ§Ãµes e parametros
 
 SelecionaCutOff <- function(fitted,y){
   
@@ -79,16 +79,16 @@ num_kfold  <-  10
 
 dados_final <-readRDS('dados_final')
 
-# para reprodutibilidade do exercício
+# para reprodutibilidade do exercÃ­cio
 set.seed(1)
-# dividimos os dados entre duas amostras, uma de treino com 70% das observações, e uma de teste, com 30%
+# dividimos os dados entre duas amostras, uma de treino com 70% das observaÃ§Ãµes, e uma de teste, com 30%
 sample <- sample(c(TRUE, FALSE), nrow(dados_final), replace=TRUE, prob=c(0.7,0.3))
 dados_treino <- dados_final[sample, ]
 dados_teste <- dados_final[!sample, ]
 
 ##################################### Parametros do Logit ######################
-# constante de regularização alfa=1 lambda=0
-tuneGrid<-expand.grid(alpha = 1, lambda=0) # regressão tipo LASSO e penalidade do estimador ML
+# constante de regularizaÃ§Ã£o alfa=1 lambda=0
+tuneGrid<-expand.grid(alpha = 1, lambda=0) # regressÃ£o tipo LASSO e penalidade do estimador ML
 
 # controle dos clusters
 trControl <- trainControl(method = 'cv', number = num_kfold, savePredictions =  TRUE,
@@ -149,7 +149,7 @@ for (k in 1:num_kfold){
   
 } 
 
-# Analisando matrizes de confusão
+# Analisando matrizes de confusÃ£o
 Metricas.Totais.In <- colMeans(metricas.in)
 cut.off.selected <- mean(mat.cutoff)
 prob_in <-  predict.train(model.fit, type = "prob", newdata = dados_treino )
