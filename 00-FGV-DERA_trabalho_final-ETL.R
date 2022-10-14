@@ -1,49 +1,49 @@
 ##################################################################################################
-######## Trabalho final da Disciplina - Decisıes Empresariais e RaciocÌnio AnalÌtico [DERA] ######
+######## Trabalho final da Disciplina - Decis√µes Empresariais e Racioc√≠nio Anal√≠tico [DERA] ######
 ##################################################################################################
 ##                                 Dados de um banco                                        ######
-## Existem contas com e sem emprÈstimo, podemos propor aumentar o volume de emprÈstimos do  ######
-## banco, oferecendo crÈdito para os indivÌduos sem emprÈstimos que tÍm uma maior probabilidade ##
+## Existem contas com e sem empr√©stimo, podemos propor aumentar o volume de empr√©stimos do  ######
+## banco, oferecendo cr√©dito para os indiv√≠duos sem empr√©stimos que t√™m uma maior probabilidade ##
 ## de serem bons pagadores.                                                                 ######
 
 ## Autor: Iago Nunes (github.com/iagocnunes)
 
 # Etapas:
-# Parte 1: ETL e integraÁ„o: extrair v·riaveis de interesse, transform·-las e unir os dados em uma base
-# Parte 2: An·lise descritiva: frequÍncias, proporÁıes e distribuiÁ„o (gr·ficos)
-# Parte 3: An·lise preditiva:
-#   - Criar grupo de treinamento [70% da base] e grupo de teste [30% da base]: todos com emprÈstimo
-#   - Aplicar o Modelo de Regress„o LogÌstica no grupo de treinamento
-#   - Utilizar o modelo de treinamento para prever a classificaÁ„o do grupo de teste
-#   - Avaliar se o modelo fez uma boa previs„o ou n„o (Matriz de Confus„o)
+# Parte 1: ETL e integra√ß√£o: extrair v√°riaveis de interesse, transform√°-las e unir os dados em uma base
+# Parte 2: An√°lise descritiva: frequ√™ncias, propor√ß√µes e distribui√ß√£o (gr√°ficos)
+# Parte 3: An√°lise preditiva:
+#   - Criar grupo de treinamento [70% da base] e grupo de teste [30% da base]: todos com empr√©stimo
+#   - Aplicar o Modelo de Regress√£o Log√≠stica no grupo de treinamento
+#   - Utilizar o modelo de treinamento para prever a classifica√ß√£o do grupo de teste
+#   - Avaliar se o modelo fez uma boa previs√£o ou n√£o (Matriz de Confus√£o)
 
-# Questıes respondidas:
-# O banco ter· uma noÁ„o exata do perfil [nas vari·veis selecionadas] dos bons e maus pagadores;
-# Se o modelo for bom: O banco poder· traÁar aÁıes segmentadas para os bons e maus tomadores de
-# emprÈstimo em pontencial; exemplo: oferecer emprÈstimo ou recusar um pedido de emprÈstimo
-# Se o modelo for ruim: que aÁıes o banco pode tomar para melhor·-lo?
+# Quest√µes respondidas:
+# O banco ter√° uma no√ß√£o exata do perfil [nas vari√°veis selecionadas] dos bons e maus pagadores;
+# Se o modelo for bom: O banco poder√° tra√ßar a√ß√µes segmentadas para os bons e maus tomadores de
+# empr√©stimo em pontencial; exemplo: oferecer empr√©stimo ou recusar um pedido de empr√©stimo
+# Se o modelo for ruim: que a√ß√µes o banco pode tomar para melhor√°-lo?
 
-####----------------------------- PARTE UM: ETL E INTEGRA«√O -----------------------------####
+####----------------------------- PARTE UM: ETL E INTEGRA√á√ÉO -----------------------------####
 
 # comando para limpar os objetos do environment (ambiente de trabalho), caso tenha algum
 rm(list = ls())
 
-# designando pasta de trabalho; tambÈm pode ser feito pela aba "Sess„o/Session" na barra de ferramentas
-setwd("C:/Users/Hiago/Desktop/FGV/Decisıes Empresariais e RaciocÌnio AnalÌtico/0.R_Vitoria_2022_02")
+# designando pasta de trabalho; tamb√©m pode ser feito pela aba "Sess√£o/Session" na barra de ferramentas
+setwd("C:/Users/Hiago/Desktop/FGV/Decis√µes Empresariais e Racioc√≠nio Anal√≠tico/0.R_Vitoria_2022_02")
 
-options(scipen=999) # removendo notaÁ„o cientÌfica dos outputs no console
+options(scipen=999) # removendo nota√ß√£o cient√≠fica dos outputs no console
 library(tidyverse) # carregando todas as livrarias do tidyverse: dplyr, tidyr, tibble, readr, etc.
 
 
-###### ETL das vari·veis de interesse nas bases "contas" e "emprÈstimos" #######
+###### ETL das vari√°veis de interesse nas bases "contas" e "empr√©stimos" #######
 # analisando as duas conjuntamente para verificar a quantidade de contas totais e a
-# quantidade de contas na base de emprÈstimo (balanceamento da nossa populaÁ„o/amostra)
+# quantidade de contas na base de empr√©stimo (balanceamento da nossa popula√ß√£o/amostra)
 
 # carregando as bases no nosso ambiente de trabalho
-#  - header: informa se a base tem (TRUE) ou n„o (FALSE) cabeÁalho
+#  - header: informa se a base tem (TRUE) ou n√£o (FALSE) cabe√ßalho
 #  - sep: informa o separados de colunas e valores (no nosso caso, um ponto e virgula)
-#  - na.strings: informa como as informaÁıes faltantes em colunas de caracteres est„o registradas,
-#    no nosso caso elas est„o vazias, nada entre as aspas ("")
+#  - na.strings: informa como as informa√ß√µes faltantes em colunas de caracteres est√£o registradas,
+#    no nosso caso elas est√£o vazias, nada entre as aspas ("")
 conta <- read.csv('account.asc', header = TRUE, sep = ";", na.strings = "")
 emprest <- read.csv('loan.asc', header = TRUE, sep = ";", na.strings = "")
 
@@ -53,27 +53,27 @@ colnames(emprest)
 str(conta)
 
 library(Hmisc) # comando describe()
-# o comando describe() entrega um sum·rio da quantidade de valores reais,
-# valores faltantes, valores distintos e outras informaÁıes a depender do tipo de vari·vel
+# o comando describe() entrega um sum√°rio da quantidade de valores reais,
+# valores faltantes, valores distintos e outras informa√ß√µes a depender do tipo de vari√°vel
 
 describe(conta$account_id) # sem NAs (NAs = valores faltantes/missing)
 
-# analisando o ano dos emprÈstimos
+# analisando o ano dos empr√©stimos
 describe(emprest$date) # emprestimos de 93 a 98
 
 describe(emprest$account_id)
 describe(emprest$loan_id)
-# S„o 682 contas para 682 emprÈstimos, o que significa que, mesmo com o passar dos anos,
-# sÛ h· um emprÈstimo por conta, n„o h· um emprestimo seguido de outro para a mesma conta.
-# Ent„o aqui j· abre uma possibilidade para o banco: alÈm de buscar potenciais bons tomadores
-# de emprÈstimo, pode-se oferecer novo emprÈstimo para bons pagadores j· observados
+# S√£o 682 contas para 682 empr√©stimos, o que significa que, mesmo com o passar dos anos,
+# s√≥ h√° um empr√©stimo por conta, n√£o h√° um emprestimo seguido de outro para a mesma conta.
+# Ent√£o aqui j√° abre uma possibilidade para o banco: al√©m de buscar potenciais bons tomadores
+# de empr√©stimo, pode-se oferecer novo empr√©stimo para bons pagadores j√° observados
 
 describe(emprest$status) # sem NAs
 
-# designando o formato de data para a nova coluna da data do emprÈstimo
+# designando o formato de data para a nova coluna da data do empr√©stimo
 emprest$emprest_date <- parse_date(as.character(emprest$date), format="%y%m%d")
 
-# selecionando vari·veis
+# selecionando vari√°veis
 conta2X <- conta %>%
   select(account_id, district_id)
 
@@ -84,20 +84,20 @@ emprest2X <- emprest %>%
 conta_loan <- conta2X %>% 
   left_join(emprest2X, by = "account_id")
 
-# limpando do ambiente de trabalho os objetos que n„o precisamos mais
+# limpando do ambiente de trabalho os objetos que n√£o precisamos mais
 rm(conta2X, emprest2X, emprest)
 
-# verificando balanceamento da nossa populaÁ„o/amostra
+# verificando balanceamento da nossa popula√ß√£o/amostra
 describe(conta_loan$loan_id)
-# 3818 (84,8%) contas sem emprÈstimo, 682 (15,2%) com emprÈstimo
+# 3818 (84,8%) contas sem empr√©stimo, 682 (15,2%) com empr√©stimo
 describe(conta_loan$status)
 # bons pagadores (A e C): 88,9% // maus pagadores (B e D): 11,1%
 # balanceamento bom
 
-# selecionando apenas contas com emprÈstimo
+# selecionando apenas contas com empr√©stimo
 conta_loan <- subset(conta_loan, !is.na(loan_id))
 
-###### ETL das vari·veis de interesse na base "transaÁıes" #######
+###### ETL das vari√°veis de interesse na base "transa√ß√µes" #######
 
 # carregando
 transacoes <- read.csv('trans.asc', header = TRUE, sep = ";", na.strings = "")
@@ -105,9 +105,9 @@ transacoes <- read.csv('trans.asc', header = TRUE, sep = ";", na.strings = "")
 # nome das colunas
 colnames(transacoes)
 
-describe(transacoes$date) # transaÁıes de 93 a 98 // sem NAs
+describe(transacoes$date) # transa√ß√µes de 93 a 98 // sem NAs
 describe(transacoes$balance) # sem NAs
-describe(transacoes$account_id) # 4.500 contas para 1.056.320 transaÁıes
+describe(transacoes$account_id) # 4.500 contas para 1.056.320 transa√ß√µes
 
 # unindo bancos
 trans_loan <- transacoes %>% 
@@ -116,14 +116,14 @@ trans_loan <- transacoes %>%
 # limpando ambiente de trabalho
 rm(conta_loan)
 
-# calculando balanÁo mÈdio do distrito
-## selecionando vari·veis
+# calculando balan√ßo m√©dio do distrito
+## selecionando vari√°veis
 transacoes1 <- transacoes %>%
   select(account_id, balance)
 ## unindo dados
 trans_acc <- transacoes1 %>% 
   left_join(conta, by = "account_id")
-## sumarizando um balanÁo mÈdio para cada distrito
+## sumarizando um balan√ßo m√©dio para cada distrito
 trans_acc1 <- trans_acc %>%
   select(district_id, balance) %>% 
   group_by(district_id) %>% 
@@ -135,21 +135,21 @@ rm(transacoes1, transacoes, trans_acc, conta)
 # nome das colunas
 colnames(trans_loan)
 
-# analisando transaÁıes de contas com emprÈstimos
-describe(trans_loan$loan_id) # 191.556 transaÁıes de 682 contas com emprÈstimo; 864.764 de contas sem
+# analisando transa√ß√µes de contas com empr√©stimos
+describe(trans_loan$loan_id) # 191.556 transa√ß√µes de 682 contas com empr√©stimo; 864.764 de contas sem
 
-# selecionando apenas transaÁıes de contas com emprÈstimo
+# selecionando apenas transa√ß√µes de contas com empr√©stimo
 trans_loan <- subset(trans_loan, !is.na(loan_id))
 
-# analisando o ano das transaÁıes
+# analisando o ano das transa√ß√µes
 describe(trans_loan$date)
 
-# designando o formato de data para a nova coluna da data da transaÁ„o
+# designando o formato de data para a nova coluna da data da transa√ß√£o
 trans_loan$trans_date <- parse_date(as.character(trans_loan$date), format="%y%m%d")
 
 
-# dividindo a base de transaÁıes atÈ a data do emprÈstimo,
-# para que o balanÁo mÈdio da conta n„o seja influenciado pelo emprÈstimo em si
+# dividindo a base de transa√ß√µes at√© a data do empr√©stimo,
+# para que o balan√ßo m√©dio da conta n√£o seja influenciado pelo empr√©stimo em si
 trans_loan93 <- subset(trans_loan, emprest_date<=as.Date("1993-12-31"))
 trans_loan93 <- subset(trans_loan93, trans_date<emprest_date)
 
@@ -167,56 +167,35 @@ trans_loan97 <- subset(trans_loan97, trans_date<emprest_date)
 
 trans_loan98 <- subset(trans_loan, emprest_date >= as.Date("1998-01-01") & emprest_date <=  as.Date("1998-12-31"))
 
-# verificando se a funÁ„o mean() calcula corretamente a mÈdia entre valores negativos e positivos
+# verificando se a fun√ß√£o mean() calcula corretamente a m√©dia entre valores negativos e positivos
 mean(c(1, 2, -1, 3, -1)) # resultado: 0,8, ok
 
-# reduzindo o comprimento (vertical) dos dados para termos somente uma observaÁ„o para cada conta
-# atravÈs da sumarizaÁ„o do balanÁo mÈdio atÈ o ano do emprÈstimo, por conta
-trans_loan93 <- trans_loan93 %>%
-  select(account_id, district_id, balance, status, emprest_date) %>% # selecionando apenas as vari·veis de interesse
-  group_by(account_id, district_id, status, emprest_date) %>% # agrupando o c·lculo por conta e status
-  summarise(balance=mean(balance, na.rm=T)) %>% # sumarizando o balanÁo mÈdio
-  ungroup()
+# reduzindo o comprimento (vertical) dos dados para termos somente uma observa√ß√£o para cada conta
+# atrav√©s da sumariza√ß√£o do balan√ßo m√©dio at√© o ano do empr√©stimo, por conta
+df_names <- c("trans_loan93","trans_loan94","trans_loan95","trans_loan96",
+              "trans_loan97","trans_loan98")
 
-trans_loan94 <- trans_loan94 %>%
-  select(account_id, district_id, balance, status, emprest_date) %>% # selecionando apenas as vari·veis de interesse
-  group_by(account_id, district_id, status, emprest_date) %>% # agrupando o c·lculo por conta e status
-  summarise(balance=mean(balance, na.rm=T)) %>% # sumarizando o balanÁo mÈdio
-  ungroup()
-
-trans_loan95 <- trans_loan95 %>%
-  select(account_id, district_id, balance, status, emprest_date) %>% # selecionando apenas as vari·veis de interesse
-  group_by(account_id, district_id, status, emprest_date) %>% # agrupando o c·lculo por conta e status
-  summarise(balance=mean(balance, na.rm=T)) %>% # sumarizando o balanÁo mÈdio
-  ungroup()
-
-trans_loan96 <- trans_loan96 %>%
-  select(account_id, district_id, balance, status, emprest_date) %>% # selecionando apenas as vari·veis de interesse
-  group_by(account_id, district_id, status, emprest_date) %>% # agrupando o c·lculo por conta e status
-  summarise(balance=mean(balance, na.rm=T)) %>% # sumarizando o balanÁo mÈdio
-  ungroup()
-
-trans_loan97 <- trans_loan97 %>%
-  select(account_id, district_id, balance, status, emprest_date) %>% # selecionando apenas as vari·veis de interesse
-  group_by(account_id, district_id, status, emprest_date) %>% # agrupando o c·lculo por conta e status
-  summarise(balance=mean(balance, na.rm=T)) %>% # sumarizando o balanÁo mÈdio
-  ungroup()
-
-trans_loan98 <- trans_loan98 %>%
-  select(account_id, district_id, balance, status, emprest_date) %>% # selecionando apenas as vari·veis de interesse
-  group_by(account_id, district_id, status, emprest_date) %>% # agrupando o c·lculo por conta e status
-  summarise(balance=mean(balance, na.rm=T)) %>% # sumarizando o balanÁo mÈdio
-  ungroup()
+for(df_name in df_names){
+  base::get(df_name) %>%
+    select(account_id, district_id, balance, status, emprest_date) %>% 
+    group_by(account_id, district_id, status, emprest_date) %>%
+    summarise(balance=mean(balance, na.rm=T)) %>%
+    ungroup() %>%
+    assign(value = .,
+           x = df_name,
+           envir = globalenv())
+}
 
 # unindo bases
 transloan <- rbind(trans_loan93,trans_loan94,trans_loan95,trans_loan96,trans_loan97,trans_loan98)
 
 # limpando ambiente de trabalho
-rm(trans_loan,trans_loan93,trans_loan94,trans_loan95,trans_loan96,trans_loan97,trans_loan98)
+rm(trans_loan,trans_loan93,trans_loan94,trans_loan95,trans_loan96,trans_loan97,trans_loan98,
+   df_name, df_names)
 
-describe(transloan$balance) # balanÁos mÈdios de 1993 a 1998: de $5.350 a $79.500,54
+describe(transloan$balance) # balan√ßos m√©dios de 1993 a 1998: de $5.350 a $79.500,54
 
-###### ETL das vari·veis de interesse nas bases "clientes" e "contector" #######
+###### ETL das vari√°veis de interesse nas bases "clientes" e "contector" #######
 
 # carregando
 cliente <- read.csv('client.asc', header = TRUE, sep = ";", na.strings = "")
@@ -228,13 +207,13 @@ colnames(conector)
 
 # selecionando apenas caracteristicas dos donos das contas
 describe(conector$type) # verificando balanceamento 
-conector <- subset(conector, type=="OWNER") # selecionando apenas observaÁıes sobre donos
+conector <- subset(conector, type=="OWNER") # selecionando apenas observa√ß√µes sobre donos
 
-# selecionando vari·veis
+# selecionando vari√°veis
 cliente <- cliente %>%
   select(client_id, birth_number)
 
-# tratando data e gÍnero
+# tratando data e g√™nero
 cliente$ano <- substr(cliente$birth_number, 1, 2)
 cliente$ano <- paste(19, cliente$ano, sep = "")
 cliente$ano <- as.numeric(cliente$ano)
@@ -245,7 +224,7 @@ cliente$dia <- as.numeric(substr(cliente$birth_number, 5, 6))
 cliente$data_nasc <- as.Date(paste0(cliente$ano, "-", cliente$mes, "-", cliente$dia), format = "%Y-%m-%d")
 cliente$gnr <- as.factor(cliente$gnr)
 
-# selecionando vari·veis
+# selecionando vari√°veis
 cliente <- cliente %>%
   select(client_id, data_nasc, gnr)
 
@@ -259,7 +238,7 @@ conect_acc <- conector %>%
 # limpando ambiente de trabalho
 rm(cliente, conector)
 
-###### ETL das vari·veis de interesse nas bases "cartao" e "distrito" #######
+###### ETL das vari√°veis de interesse nas bases "cartao" e "distrito" #######
 
 cartao <- read.csv('card.asc', header = TRUE, sep = ";", na.strings = "")
 distrito <- read.csv('district.asc', header = TRUE, sep = ";", na.strings = "")
@@ -277,22 +256,22 @@ cartao <- cartao %>%
   summarise(junior=sum(junior), classic=sum(classic), gold=sum(gold)) %>% 
   ungroup()
 
-###### Unindo dados e finalizando vari·veis #######
+###### Unindo dados e finalizando vari√°veis #######
 
-# unindo balanÁo mÈdio do distrito
+# unindo balan√ßo m√©dio do distrito
 dados_final <- transloan %>% 
   left_join(trans_acc1, by = "district_id")
-# unindo proporÁ„o de habitantes urbanos e sal·rio mÈdio dos distritos
+# unindo propor√ß√£o de habitantes urbanos e sal√°rio m√©dio dos distritos
 dados_final <- dados_final %>% 
   left_join(distrito, by = "district_id")
 # unindo conector
 dados_final <- dados_final %>% 
   left_join(conect_acc, by = "account_id")
-# unindo cart„o
+# unindo cart√£o
 dados_final <- dados_final %>% 
   left_join(cartao, by = "disp_id")
 
-# idade (em dias) no dia do emprÈstimo
+# idade (em dias) no dia do empr√©stimo
 dados_final <- dados_final  %>% 
   mutate(idade=as.numeric(emprest_date - data_nasc))
 
@@ -312,7 +291,7 @@ dados_final <- dados_final  %>%
          classic=as.factor(classic),
          gold=as.factor(gold))
 
-# mantendo apenas vari·veis de interesse
+# mantendo apenas vari√°veis de interesse
 dados_final <- dados_final %>%
   select(account_id, status, balance, idade, gnr, junior, classic, gold, balance_distr, A10, A11)
 
@@ -320,23 +299,12 @@ dados_final <- dados_final %>%
 missmap(dados_final, main='Mapa de NAs - banco de dados final', x.cex = 1.0, y.labels= NULL, y.at = NULL, margins = c(10, 10))
 
 # salvando base final em formato RDS
-# RDS= arquivo do R, carrega mais r·pido na prÛxima vez que subir a base no ambiente
+# RDS= arquivo do R, carrega mais r√°pido na pr√≥xima vez que subir a base no ambiente
 # comando pra ler uma base RDS:     dados_final <-readRDS('dados_final')
 saveRDS(dados_final, 'dados_final')
 
 ## Analise descritiva
 library(esquisse)
-
-
-
-
-
-
-
-
-
-
-
 
 
 
