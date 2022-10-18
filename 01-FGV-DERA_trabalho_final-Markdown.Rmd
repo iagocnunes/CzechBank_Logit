@@ -588,7 +588,7 @@ Definindo o número de clusters para o k-fold cross-validation:
 ```
 num_kfold  <-  10
 ```
-```Set.seed()``` para reprodutibilidade do exercício e dividindo dados entre duas amostras, uma de treino com 70% das observações, e uma de teste, com 30%:
+Set.seed() para reprodutibilidade do exercício e dividindo dados entre duas amostras, uma de treino com 70% das observações, e uma de teste, com 30%:
 ```
 set.seed(1)
 sample <- sample(c(TRUE, FALSE), nrow(dados_final), replace=TRUE, prob=c(0.7,0.3))
