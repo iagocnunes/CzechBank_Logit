@@ -188,6 +188,7 @@ dados_final <- dados_final  %>%
 dados_final <- dados_final %>%
   select(account_id, status, balance, idade, gnr, junior, classic, gold, balance_distr, A10, A11)
 
+library(Amelia)
 missmap(dados_final, main='Mapa de NAs - banco de dados final', x.cex = 1.0, y.labels= NULL, y.at = NULL, margins = c(10, 10))
 
 saveRDS(dados_final, 'dados_final')
