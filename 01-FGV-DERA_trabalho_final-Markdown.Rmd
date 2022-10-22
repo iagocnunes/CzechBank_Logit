@@ -628,7 +628,7 @@ coef(model.fit$finalModel,model.fit$finalModel$lambdaOpt)
 #A10           -0.00759807449
 #A11            0.00012097503
 ```
-<p>Pessoas com cartão tipo "Classic" têm uma log-chance 1.04999511436 maior de serem boas pagadoras, enquanto pessoas do gênero feminino ou com cartão do tipo "Gold" possuem uma log-chance maior de serem más pagadoras. As demais variáveis do nosso modelo não são significativas.</p>
+<p>Pessoas com cartão tipo "Classic" têm uma log-chance 1.04999511436 maior de serem boas pagadoras, com cartão "Junior", 0.30013297928. Pessoas do gênero feminino ou, menos significativamente, com cartão do tipo "Gold" possuem uma log-chance maior de serem más pagadoras. As demais variáveis do nosso modelo não são significativas.</p>
 <p>Definindo as métricas de desempenho e o limiar γ através da K-fold cross-validation:</p>
 ```
 # Limiar e Cutoff no CV 
